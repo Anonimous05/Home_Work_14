@@ -11,20 +11,17 @@ class ORM:
     def create_table(cls):
         cursor.execute(f"CREATE TABLE {cls.__name__.lower()} (id PRIMARY KEY, student_name TEXT, age INTEGER)")
 
-    @classmethod
-    def insert(cls, other):
-        cursor.execute(f"INSERT INTO {cls.__name__.lower()} VALUES ({other.key}, '{other.name}', {other.age})")
+    def insert(self):
+        cursor.execute(f"INSERT INTO {self.__class__.__name__.lower()} VALUES ({self.key}, '{self.name}', {self.age})")
         con.commit()
 
-    @classmethod
-    def update(cls, other):
-        cursor.execute(f"UPDATE {cls.__name__.lower()} SET student_name='{other.name}', age={other.age} WHERE id={other.key}")
+    def update(self):
+        cursor.execute(f"UPDATE {self.__class__.__name__.lower()} SET student_name='{self.name}', age={self.age} WHERE id={self.key}")
         con.commit()
         con.close()
 
-    @classmethod
-    def delete(cls, other):
-        cursor.execute(f"DELETE from {cls.__name__.lower()} WHERE id={other.key}")
+    def delete(self):
+        cursor.execute(f"DELETE from {self.__class__.__name__.lower()} WHERE id={self.key}")
         con.commit()
         con.close()
 
@@ -36,6 +33,6 @@ class Students(ORM):
         self.age = age
 
 
-student = Students(4, "Don", 28)
-student.delete(student)
+student = Students(3, "Json Statham ahahahah", 48)
+student.insert()
 con.close()
